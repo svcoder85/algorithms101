@@ -5,6 +5,9 @@ public class HashTable {
     private int INITIAL_SIZE = 16;
     private HashEntry[] data; // LinkedList
 
+    /**
+     * Class that represents a key-value pair inside a HashTable
+     */
     class HashEntry {
         String key;
         String value;
@@ -21,91 +24,92 @@ public class HashTable {
         data = new HashEntry[INITIAL_SIZE];
     }
 
+    /**
+     * @param key
+     * @param value
+     */
     public void put(String key, String value) {
-
-        // Get the index
         int index = getIndex(key);
 
-        // Create the linked list entry
-        HashEntry entry = new HashEntry(key, value);
-
-        // If no entry there - add it
-        if (data[index] == null) {
-            data[index] = entry;
-        }
-        // Else handle collision by adding to end of linked list
-        else {
-            HashEntry entries = data[index];
-            // Walk to the end...
-            while(entries.next != null) {
-                entries = entries.next;
+        //create the new entry to be stored
+        HashEntry current = data[index];
+        if (current == null) {
+            System.out.println("Key -> [" + key + "] not found. Hence adding it");
+            current = new HashEntry(key, value);
+            data[index] = current;
+        } else {
+            while (current.next != null) {
+                //found key, update value
+                if (current.key.equals(key)) {
+                    System.out.println("Key -> [" + key + "] already exists! Hence updating value");
+                    current.value = value;
+                    return;
+                }
+                current = current.next;
             }
-            // Add our new entry there
-            entries.next = entry;
+            //append to the end of the linked list since we didn't find the desired key
+            System.out.println("Key -> [" + key + "] not found. Hence adding it");
+            current.next = new HashEntry(key, value);
         }
     }
 
+    /**
+     * @param key
+     * @return
+     */
     public String get(String key) {
-
-        // Get the index
         int index = getIndex(key);
 
-        // Get the current list of entries
-        HashEntry entries = data[index];
-
-        // if we have existing entries against this key...
-        if (entries != null) {
-            // else walk chain until find a match
-            while (!entries.key.equals(key) && entries.next !=null) {
-                entries = entries.next;
-            }
-            // then return it
-            return entries.value;
+        if (index < 0) {
+            return null;
         }
 
-        // it we have no entries against this key...
-       return null;
+        HashEntry current = data[index];
+        while (current != null) {
+            if (current.key.equals(key)) {
+                System.out.println("Found value for key => [" + key + "] => " + current.value);
+                return current.value;
+            }
+            current = current.next;
+        }
+
+        return null;
     }
 
+    /**
+     * @param key
+     * @return
+     */
     private int getIndex(String key) {
-        // Get the hash code
-        int hashCode = key.hashCode();
-        System.out.println("hashCode = " + hashCode);
+        int index = Math.abs(key.hashCode()) % INITIAL_SIZE;
 
-        // Convert to index
-        int index = (hashCode & 0x7fffffff) % INITIAL_SIZE;
-//        int index = hashCode % INITIAL_SIZE;
-
-        // Hack to force collision for testing
         if (key.equals("John Smith") || key.equals("Sandra Dee")) {
-            index = 4;
+            index = 2; //force a collision
         }
-
-        System.out.println("index = " + index);
-
+        System.out.println("Resolved key => [" + key + "] to index => [" + index + "]");
         return index;
     }
 
     @Override
     public String toString() {
-        int bucket = 0;
-        StringBuilder hashTableStr = new StringBuilder();
-        for (HashEntry entry : data) {
-            if(entry == null) {
-                continue;
-            }
-            hashTableStr.append("\n bucket[")
-                    .append(bucket)
-                    .append("] = ")
-                    .append(entry.toString());
-            bucket++;
-            HashEntry temp = entry.next;
-            while(temp != null) {
-                hashTableStr.append(" -> ");
-                hashTableStr.append(temp.toString());
-                temp = temp.next;
+        StringBuilder sb = new StringBuilder();
+
+        if (data.length == 0) {
+            return null;
+        }
+
+        sb.append("HashTable:[");
+        sb.append(System.getProperty("line.separator"));
+        for (HashEntry hashEntry : data) {
+            HashEntry current = hashEntry;
+            while (current != null) {
+                sb.append("[key: " + current.key + ", Value: " + current.value + "]");
+                sb.append(System.getProperty("line.separator"));
+                current = current.next;
             }
         }
-        return hashTableStr.toString();
+        sb.append("]");
+
+        return sb.toString();
     }
 }
