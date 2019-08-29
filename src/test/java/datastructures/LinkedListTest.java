@@ -81,15 +81,59 @@ public class LinkedListTest {
         Assert.assertEquals(3, linkedList.getLast());
     }
 
-    // TODO
+    @Test
+    public void RemoveFront() {
+        //nothing to remove
+        linkedList.removeFront();
+        Assert.assertEquals(0, linkedList.size());
 
-    // Size
-    // Clear
-    // Delete with value
-    // Remove front
-    // Remove back
-    // Contains
+        linkedList.addFront(1);
+        linkedList.addBack(2);
+        linkedList.addBack(3);
 
-    // What you need to know
+        Assert.assertEquals(3, linkedList.size());
+        Assert.assertEquals(1, linkedList.getFirst());
+        Assert.assertEquals(3, linkedList.getLast());
 
+        //
+        linkedList.removeFront();
+        Assert.assertEquals(2, linkedList.size());
+        Assert.assertEquals(2, linkedList.getFirst());
+        Assert.assertEquals(3, linkedList.getLast());
+    }
+
+    @Test
+    public void RemoveBack() {
+        linkedList.addFront(1);
+        linkedList.addBack(2);
+        linkedList.addBack(3);
+
+        Assert.assertEquals(3, linkedList.size());
+        Assert.assertEquals(1, linkedList.getFirst());
+        Assert.assertEquals(3, linkedList.getLast());
+
+        //
+        linkedList.removeBack();
+        linkedList.print();
+        Assert.assertEquals(2, linkedList.size());
+        Assert.assertEquals(1, linkedList.getFirst());
+        Assert.assertEquals(2, linkedList.getLast());
+    }
+
+    @Test
+    public void Contains() {
+        linkedList.addFront(1);
+        linkedList.addBack(2);
+        linkedList.addBack(3);
+
+
+        Assert.assertEquals(true, linkedList.contains(2));
+        Assert.assertEquals(3, linkedList.size());
+        Assert.assertEquals(1, linkedList.getFirst());
+        Assert.assertEquals(3, linkedList.getLast());
+
+        // not found!
+        Assert.assertEquals(false, linkedList.contains(30));
+
+    }
 }

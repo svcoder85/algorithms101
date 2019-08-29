@@ -55,9 +55,22 @@ public class DynamicArrayTest {
     }
 
     @Test
-    public void Contains()  {
+    public void Contains() {
         Assert.assertFalse(array.Contains("a"));
         array.add("a");
         Assert.assertTrue(array.Contains("a"));
     }
+
+    @Test
+    public void Add() {
+        array.add("a"); // 0
+        array.add("b"); // 1
+        array.add("c"); // 2
+
+        Assert.assertEquals(3, array.size());
+        Assert.assertEquals("a", array.get(0));
+        Assert.assertEquals("b", array.get(1));
+        Assert.assertEquals("c", array.get(2));
+    }
 }
+

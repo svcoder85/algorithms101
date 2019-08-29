@@ -12,7 +12,7 @@ public class DynamicArray<String> {
     }
 
     public String get(int index) {
-        return (String)data[index];
+        return (String) data[index];
     }
 
     public void set(int index, String value) {
@@ -22,36 +22,42 @@ public class DynamicArray<String> {
     public void insert(int index, String value) {
 
         // Check size
-        if (size == initialCapacity) {
+        if (size() == initialCapacity) {
             resize();
         }
 
-        // Copy up
-        for (int j = size; j > index; j--) {
-            data[j] = data[j-1];
+        //copy up
+        for (int i = size(); i > index; i--) {
+            data[i] = data[i - 1];
         }
 
-        // Insert
+        //insert element at index
         data[index] = value;
         size++;
     }
 
-    //
-    // You try
-    // Try implementing delete, isEmpty, and Contains on your own.
-    // You can find the solution at the bottom
-
-    /*
     public void delete(int index) {
+        for (int i = index; i < size() - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        size--;
     }
 
     public boolean isEmpty() {
-
+        return size() == 0;
     }
 
     public boolean Contains(String value) {
+        if (size() == 0) {
+            return false;
+        }
+        for (int i = 0; i < size(); i++) {
+            if (value.equals(data[i])) {
+                return true;
+            }
+        }
+        return false;
     }
-    */
 
     private void resize() {
         Object[] newData = new Object[initialCapacity * 2];
@@ -67,13 +73,11 @@ public class DynamicArray<String> {
     }
 
     public void print() {
-        for (int i=0;i< size;i++) {
+        for (int i = 0; i < size; i++) {
             System.out.println("data[i] = " + data[i]);
         }
     }
 
-    // Some array implementations offer methods like insert (also known as pushBack).
-    // Which is like insert, only in does the insert at the end of the array.
     public void add(String value) {
 
         if (size == initialCapacity) {
@@ -82,28 +86,6 @@ public class DynamicArray<String> {
 
         data[size] = value;
         size++;
-    }
-
-    public void delete(int index) {
-        // Copy down
-        for (int j = index; j < size - 1; j++) {
-            data[j] = data[j + 1];
-        }
-        size--;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public boolean Contains(String value) {
-        for (int i = 0; i <= size -  1; i++) {
-            String currentValue = (String)data[i];
-            if (currentValue.equals(value)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
