@@ -55,4 +55,25 @@ public class BinarySearchTreeTest {
         BinarySearchTree.Node node = bst.find(10);
         Assert.assertNull(node);
     }
+
+    @Test
+    public void inorderTraversal() {
+        BinarySearchTree bst = new BinarySearchTree();
+        bst.insert(10, "A").insert(5, "B").insert(15, "C").insert(7, "D").insert(2, "D");
+        bst.inOrderTraversal();
+    }
+
+    @Test
+    public void postOrderTraversal() {
+        BinarySearchTree bst = new BinarySearchTree();
+        bst.insert(10, "A").insert(5, "B").insert(15, "C").insert(7, "D").insert(2, "D");
+        bst.postOrderTraversal();
+    }
+
+    @Test
+    public void preOrderTraversal() {
+        BinarySearchTree bst = new BinarySearchTree();
+        bst.insert(10, "A").insert(5, "B").insert(15, "C").insert(7, "D").insert(2, "D");
+        bst.preOrderTraversal();
+    }
 }
